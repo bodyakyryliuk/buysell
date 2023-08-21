@@ -1,41 +1,35 @@
 package com.example.buysell.controller;
 
 import com.example.buysell.model.User;
-import com.example.buysell.repository.UserRepository;
+import com.example.buysell.model.VerificationToken;
 import com.example.buysell.security.authentication.EmailAuthenticationProvider;
+import com.example.buysell.security.authentication.OnRegistrationCompleteEvent;
 import com.example.buysell.service.UserService;
 import com.example.buysell.user.WebUser;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class RegistrationController {
-    @Autowired
     private final UserService userService;
     private final EmailAuthenticationProvider emailAuthenticationProvider;
+    private final ApplicationEventPublisher eventPublisher;
+
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder){
@@ -54,7 +48,7 @@ public class RegistrationController {
     public String processRegistration(
             @Valid @ModelAttribute("webUser") WebUser webUser,
             BindingResult bindingResult,
-            HttpSession httpSession,
+            HttpServletRequest request,
             Model model
     ){
         log.info("Processing registration");
@@ -75,12 +69,44 @@ public class RegistrationController {
             return "signup";
         }
 
-        userService.save(webUser);
+        User user = userService.save(webUser);
+        Locale locale = request.getLocale();
+        String appUrl = request.getContextPath();
         log.info("Successfully created user: " + email);
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, locale, appUrl));
 
 
         return "redirect:/";
     }
+
+    @GetMapping("/registrationConfirm")
+    public String confirmRegistration(@RequestParam("token") String token, WebRequest request, Model model){
+        log.info("At the beginning of ConfirmRegistration method");
+
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken == null) {
+            String message = "Invalid token";
+            model.addAttribute("message", message);
+            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            String messageValue = "Authorization time expired!";
+            model.addAttribute("message", messageValue);
+            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        }
+
+        log.info("In ConfirmRegistration method: going to set user active and save it");
+
+        user.setActive(true);
+        userService.saveRegisteredUser(user);
+        return "redirect:/login";
+    }
+
 
 
 }

@@ -51,7 +51,7 @@ public class SecurityConfiguration {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/static/**", "/", "/login/**", "/signup/**", "/processRegistration", "/oauth2/**").permitAll()
+                                .requestMatchers("/static/**", "/", "/login/**", "/signup/**", "/processRegistration", "/oauth2/**", "/registrationConfirm").permitAll()
                                 .requestMatchers("/product/create").hasAnyAuthority("USER")
                                 .anyRequest().authenticated()
                 )
