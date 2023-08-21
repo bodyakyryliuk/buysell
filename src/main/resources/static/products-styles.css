@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    margin: 20px;
+    padding: 0;
+}
+
+h1, h3 {
+    margin: 20px 0;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #333;
+    margin: 20px 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, [col-start] fit-content(200px) [col-end]); /* Display four products in one row */
+    gap: 20px; /* Adjust spacing as needed */
+}
+.product {
+    flex: 1;
+    /*max-width: calc(100% - 20px); !* Adjust the width as needed *!*/
+    width: 400px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.login-button-container{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.search-button{
+    width: 21%;
+}
+.search-form{
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 10px;
+    /*border: 1px solid #ccc;*/
+    border-radius: 3px;
+}
+
+#search {
+    margin-bottom: 0px;
+    padding: 5px;
+    margin-right: 10px;
+    width: 73%;
+    height: 20px;
+}
+.login-button-container{
+    border-radius: 1px;
+}
+.login-button{
+    border-radius: 1px;
+}
+
+.product-info {
+    margin-bottom: 10px; /* Increase the vertical distance between properties */
+}
+
+.product-actions {
+    padding-left: -20px;
+}
+
+.product a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #4CAF50;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+form {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.user-info{
+    position: absolute;
+    top: 12px;
+    right: 150px;
+
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    width: 150px;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}

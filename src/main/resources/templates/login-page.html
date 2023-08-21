@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/login.css"> <!-- Link to the external CSS file -->
+  <title>Login Page</title>
+</head>
+
+<body>
+<div class="login-container">
+  <h1>Welcome to BuySell</h1>
+  <p>Please select a login method:</p>
+  <div class="login-options">
+    <a th:href="@{/login/google}" class="login-button google">Log in with Google</a>
+    <a th:href="@{/login/facebook}" class="login-button facebook">Log in with Facebook</a>
+    <a th:href="@{/login/email}"  class="login-button email">Log in with Email</a>
+  </div>
+  <div class="continue-container">
+    <p>Don't have an account? <a th:href="@{/signup}" class="signup-link">Sign Up</a></p>
+    <a th:href="@{/}" class="continue-link">Continue Without Login</a>
+  </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="/static/product-info-styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Product Details</h1>
+    <div class="product-details">
+        <div class="product-info">
+            <h2>Title:</h2>
+            <td th:text="${product.title}">Name</td>
+        </div>
+        <div class="product-info">
+            <h2>Description:</h2>
+            <td th:text="${product.description}">Description</td>
+        </div>
+        <div class="product-info">
+            <h2>Price:</h2>
+            <td th:text="${product.price}">Price</td>
+        </div>
+        <div class="product-info">
+            <h2>City:</h2>
+            <td th:text="${product.city}">City</td>
+        </div>
+        <div class="product-info">
+            <h2>Author:</h2>
+            <td th:text="${product.author}">Author</td>
+        </div>
+        <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post">
+            <input type="submit" value="Delete product">
+        </form>
+    </div>
+</div>
+</body>
+</html>
