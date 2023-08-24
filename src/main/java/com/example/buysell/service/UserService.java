@@ -2,6 +2,7 @@ package com.example.buysell.service;
 
 import com.example.buysell.model.Role;
 import com.example.buysell.model.User;
+import com.example.buysell.model.UserRole;
 import com.example.buysell.model.VerificationToken;
 import com.example.buysell.repository.UserRepository;
 import com.example.buysell.repository.VerificationTokenRepository;
@@ -33,7 +34,7 @@ public class UserService {
         user.setAuthMethod("email");
 
         // give user default role of "employee"
-        user.setRoles(List.of(new Role(user.getEmail(), "USER"), new Role(user.getEmail(), "MANAGER")));
+        user.setRoles(List.of(new Role(UserRole.ROLE_USER)));
 
         // save user in the database
         return userRepository.save(user);

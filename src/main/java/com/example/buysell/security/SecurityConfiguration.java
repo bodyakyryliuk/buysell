@@ -36,13 +36,6 @@ public class SecurityConfiguration {
                 "select email, role from roles where email=?"
         );
 
-//        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-//                "select r.email, r.role " +
-//                        "from roles r " +
-//                        "inner join users u on r.email = u.email " +
-//                        "where u.email = ?"
-//        );
-
         return jdbcUserDetailsManager;
     }
 
@@ -52,7 +45,7 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/static/**", "/", "/login/**", "/signup/**", "/processRegistration", "/oauth2/**", "/registrationConfirm").permitAll()
-                                .requestMatchers("/product/create").hasAnyAuthority("USER")
+                                .requestMatchers("/product/create").hasAnyAuthority("ROLE_SELLER","ROLE_MANAGER", "ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
@@ -111,36 +104,3 @@ public class SecurityConfiguration {
 
     }
 }
-
-
-
-
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return daoAuthenticationProvider;
-
-//    @Bean
-//    public SecurityFilterChain facebookFilterChain(HttpSecurity http) throws Exception{
-//        http.authorizeHttpRequests(configurer ->
-//                        configurer
-//                                .requestMatchers("/static/**").permitAll()
-//                                .requestMatchers("/","/login**", "/signup**").permitAll()
-//                                .anyRequest().authenticated()
-//                )
-//                .formLogin(form ->
-//                        form
-//                                .loginPage("/login/facebook")
-//                                .loginProcessingUrl("/authenticateTheUser")
-//                                .permitAll()
-//                )
-//                .logout(logout ->
-//                        logout
-//                                .logoutUrl("/logout")
-//                                .logoutSuccessUrl("/")
-//                )
-////                .authenticationProvider(emailAuthenticationProvider());
-//        ;
-//
-//        return http.build();
-//    }

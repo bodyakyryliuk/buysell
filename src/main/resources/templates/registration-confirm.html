@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation</title>
+    <link rel="stylesheet" href="/static/products-styles.css">
+</head>
+<body>
+<div style="text-align: center; padding: 400px;">
+    <div th:if="${activated}">
+        <p>Activation link has been used. Redirecting...</p>
+        <meta http-equiv="refresh" content="3;url=/initial-page">
+    </div>
+    <div th:unless="${activated}">
+        <h1>Email Confirmation</h1>
+        <p>Thank you for signing up! If you've entered a valid email address there must be a link to confirm your email address</p>
+    </div>
+</div>
+</body>
+</html>

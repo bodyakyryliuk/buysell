@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/products-styles.css">
+  <title>Online Store Administrator</title>
+</head>
+<body>
+<header>
+  <h1>Welcome, Store Administrator</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#dashboard">Dashboard</a></li>
+    <li><a href="#products">Manage Products</a></li>
+    <li><a href="#orders">Manage Orders</a></li>
+    <li><a href="#customers">Manage Customers</a></li>
+    <li><a href="#employees">Manage Employees</a></li>
+    <li><a href="#analytics">View Analytics</a></li>
+    <li><a href="#settings">Store Settings</a></li>
+    <li><a href="#logout">Logout</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section id="dashboard">
+    <h2>Dashboard</h2>
+    <!-- Display overview information about the store's performance -->
+  </section>
+
+  <section id="products">
+    <h2>Manage Products</h2>
+    <button id="addProductButton">Add Product</button>
+    <ul>
+      <!-- List of products -->
+      <li>Product 1 <button class="editProductButton">Edit</button> <button class="deleteProductButton">Delete</button></li>
+      <li>Product 2 <button class="editProductButton">Edit</button> <button class="deleteProductButton">Delete</button></li>
+      <!-- ... more products -->
+    </ul>
+  </section>
+
+  <section id="orders">
+    <h2>Manage Orders</h2>
+    <ul>
+      <!-- List of orders -->
+      <li>Order #123 <button class="viewOrderButton">View Details</button></li>
+      <li>Order #124 <button class="viewOrderButton">View Details</button></li>
+      <!-- ... more orders -->
+    </ul>
+  </section>
+
+  <section id="customers">
+    <h2>Manage Customers</h2>
+    <ul>
+      <!-- List of customers -->
+      <li>Customer 1 <button class="editCustomerButton">Edit</button></li>
+      <li>Customer 2 <button class="editCustomerButton">Edit</button></li>
+      <!-- ... more customers -->
+    </ul>
+  </section>
+
+  <section id="employees">
+    <h2>Manage Employees</h2>
+    <ul>
+      <!-- List of employees -->
+      <li>Employee 1
+        <select class="roleSelect">
+          <option value="admin">Admin</option>
+          <option value="employee">Employee</option>
+        </select>
+        <button class="updateRoleButton">Update Role</button>
+        <button class="releaseEmployeeButton">Release</button>
+      </li>
+      <li>Employee 2
+        <select class="roleSelect">
+          <option value="admin">Admin</option>
+          <option value="employee">Employee</option>
+        </select>
+        <button class="updateRoleButton">Update Role</button>
+        <button class="releaseEmployeeButton">Release</button>
+      </li>
+      <!-- ... more employees -->
+    </ul>
+  </section>
+
+  <section id="analytics">
+    <h2>View Analytics</h2>
+    <!-- Display store performance data, sales trends, etc. -->
+  </section>
+
+  <section id="settings">
+    <h2>Store Settings</h2>
+    <!-- Configure store settings, payment options, etc. -->
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2023 Your Online Store. All rights reserved.</p>
+</footer>
+</body>
+</html>

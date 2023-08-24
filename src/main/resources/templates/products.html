@@ -82,7 +82,7 @@
     </div>
     <hr>
 
-<div sec:authorize="hasAnyAuthority('USER')">
+<div sec:authorize="hasAnyAuthority('ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_MANAGER')">
     <form  action="/product/create" method="post" class="product-form">
         <h3>Add new item</h3>
         <div class="form-row">

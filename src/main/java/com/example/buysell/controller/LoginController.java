@@ -26,7 +26,6 @@ public class LoginController {
         return "email-login-page";
     }
 
-
 }
 
 

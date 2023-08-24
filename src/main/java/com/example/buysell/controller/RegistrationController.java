@@ -76,7 +76,7 @@ public class RegistrationController {
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, locale, appUrl));
 
 
-        return "redirect:/";
+        return "registration-confirm";
     }
 
     @GetMapping("/registrationConfirm")
@@ -92,6 +92,7 @@ public class RegistrationController {
             return "redirect:/badUser.html?lang=" + locale.getLanguage();
         }
 
+
         User user = verificationToken.getUser();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
@@ -104,7 +105,8 @@ public class RegistrationController {
 
         user.setActive(true);
         userService.saveRegisteredUser(user);
-        return "redirect:/login";
+        model.addAttribute("activated", true);
+        return "registration-confirm";
     }
 
 

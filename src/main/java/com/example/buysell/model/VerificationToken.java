@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@Table(name="verification_token")
 public class VerificationToken {
     private static final int EXPIRATION = 24 * 60;
     @Id
@@ -17,7 +18,7 @@ public class VerificationToken {
     private String token;
     private Date expiryDate;
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(nullable = false, name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Date calculateExpiryDate(int expiryTimeInMinutes){
