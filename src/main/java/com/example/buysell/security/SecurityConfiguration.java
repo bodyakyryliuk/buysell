@@ -2,18 +2,25 @@ package com.example.buysell.security;
 
 import com.example.buysell.repository.UserRepository;
 import com.example.buysell.security.authentication.EmailAuthenticationProvider;
+import com.example.buysell.security.authentication.EmailSuccessHandler;
 import com.example.buysell.security.authentication.GoogleSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 
 
 @Configuration
@@ -33,9 +40,11 @@ public class SecurityConfiguration {
 
 
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select email, role from roles where email=?"
+                "select u.email, r.role from users u "
+                        + "inner join users_roles ur on u.id = ur.user_id "
+                        + "inner join roles r on ur.role_id = r.id "
+                        + "where u.email=?"
         );
-
         return jdbcUserDetailsManager;
     }
 
@@ -63,34 +72,35 @@ public class SecurityConfiguration {
                         oauth2Login
                                 .loginPage("/login/google")
                                 .successHandler(new GoogleSuccessHandler(userRepository))
-                );
-
-        return http.build();
-    }
-
-    @Bean
-    public SecurityFilterChain emailFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/login/email").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .formLogin(form ->
-                        form
-                                .loginPage("/login/email")
-                                .loginProcessingUrl("/authenticateTheUser")
-                                .permitAll()
-                )
-                .logout(logout ->
-                        logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/")
                 )
                 .authenticationProvider(authenticationProvider());
-
         return http.build();
     }
+
+
+//    @Bean
+//    public SecurityFilterChain emailFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests(authorizeRequests ->
+//                        authorizeRequests
+//                                .requestMatchers("/login/email", "/registrationConfirm").permitAll()
+//                                .anyRequest().authenticated()
+//                )
+//                .formLogin(form ->
+//                        form
+//                                .loginPage("/login/email")
+//                                .loginProcessingUrl("/authenticateTheUser")
+//                                .permitAll()
+//                )
+//                .logout(logout ->
+//                        logout
+//                                .logoutUrl("/logout")
+//                                .logoutSuccessUrl("/")
+//                )
+//                .authenticationProvider(authenticationProvider());
+//
+//        return http.build();
+//    }
 
 
     @Bean
@@ -98,9 +108,12 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public EmailAuthenticationProvider authenticationProvider(){
         return new EmailAuthenticationProvider(userDetailsManager(dataSource), passwordEncoder());
-
     }
+
+
+
 }

@@ -7,17 +7,21 @@ import com.example.buysell.security.authentication.OnRegistrationCompleteEvent;
 import com.example.buysell.service.UserService;
 import com.example.buysell.user.WebUser;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -51,6 +55,7 @@ public class RegistrationController {
             HttpServletRequest request,
             Model model
     ){
+        long time = System.currentTimeMillis();
         log.info("Processing registration");
         String email = webUser.getEmail();
 
@@ -72,9 +77,13 @@ public class RegistrationController {
         User user = userService.save(webUser);
         Locale locale = request.getLocale();
         String appUrl = request.getContextPath();
-        log.info("Successfully created user: " + email);
+
+        long secTime = System.currentTimeMillis() - time;
+        log.info("Successfully created user: " + email + " with time " + secTime);
+
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, locale, appUrl));
 
+        log.info("After event publisher with time " + (System.currentTimeMillis() - secTime));
 
         return "registration-confirm";
     }
@@ -101,11 +110,17 @@ public class RegistrationController {
             return "redirect:/badUser.html?lang=" + locale.getLanguage();
         }
 
-        log.info("In ConfirmRegistration method: going to set user active and save it");
 
         user.setActive(true);
         userService.saveRegisteredUser(user);
         model.addAttribute("activated", true);
+        emailAuthenticationProvider.autoLogin(user.getEmail(), user.getPassword());
+        log.info("In ConfirmRegistration method: after auto login");
+
+        SecurityContext sc = SecurityContextHolder.getContext();
+        log.info("After autologin method (directly before redirecting): " + String.valueOf(sc.getAuthentication()));
+
+
         return "registration-confirm";
     }
 
