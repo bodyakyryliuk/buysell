@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 @Entity
@@ -41,6 +42,9 @@ public class User implements UserDetails {
 
     @Column(name = "locale")
     private String locale;
+
+    @Column(name = "balance")
+    private BigDecimal balance;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",

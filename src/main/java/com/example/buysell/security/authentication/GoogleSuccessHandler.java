@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -71,9 +72,9 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
         user.setAuthIdentifier(oauth2User.getAttribute("sub"));
         user.setAuthMethod("google");
         user.setRoles(List.of(new Role(UserRole.ROLE_USER)));
+        user.setBalance(BigDecimal.ZERO);
 
         // Save user in the database
         return userRepository.save(user);
-
     }
 }

@@ -29,17 +29,11 @@
     </form>
 
     <div class="user-info" sec:authorize="isAuthenticated()">
-        <span th:if="${#authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails)}"
-              th:text="${#authentication.principal.username}"></span>
-        <span th:if="${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)}"
-              th:text="${#authentication.principal.attributes['email']}"></span>
-
+        <span th:text="${user.email}"></span>
         <br>
-
-        <span th:if="${#authentication.principal instanceof T(org.springframework.security.core.userdetails.UserDetails)}"
-              th:each="authority : ${#authentication.principal.authorities}" th:text="${authority.authority}"></span>
-        <span th:if="${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)}"
-              th:each="authority : ${#authentication.principal.authorities}" th:text="${authority}"></span>
+        <span th:text="${user.roles}"></span>
+        <br>
+        <span th:text="'Balance: ' + ${user.balance}"></span>
     </div>
 
 
