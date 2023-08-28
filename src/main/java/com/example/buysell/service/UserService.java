@@ -85,6 +85,17 @@ public class UserService {
     public void saveRegisteredUser(User user){
         userRepository.save(user);
     }
+
+    public void addMoney(BigDecimal amount){
+        User user = getLoggedInUser();
+        user.setBalance(user.getBalance().add(amount));
+        userRepository.save(user);
+    }
+    public void withdrawMoney(BigDecimal amount){
+        User user = getLoggedInUser();
+        user.setBalance(user.getBalance().subtract(amount));
+        userRepository.save(user);
+    }
 }
 
 

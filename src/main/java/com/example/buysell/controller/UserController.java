@@ -1,13 +1,22 @@
 package com.example.buysell.controller;
 
+import com.example.buysell.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+import java.math.BigDecimal;
+
+@Controller
+@RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
+
     @GetMapping("/roles")
     public String getRoles(Authentication authentication) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -19,6 +28,18 @@ public class UserController {
         }
 
         return stringBuilder.toString();
+    }
+
+    @PostMapping("/add-money")
+    public String addBalance(@RequestParam BigDecimal amount){
+        userService.addMoney(amount);
+        return "redirect:/";
+    }
+
+    @PostMapping("/withdraw-money/{amount}")
+    public String withdrawMoney(@PathVariable BigDecimal amount){
+        userService.withdrawMoney(amount);
+        return "redirect:/";
     }
 
 }

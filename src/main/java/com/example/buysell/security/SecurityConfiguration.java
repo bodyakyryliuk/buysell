@@ -53,7 +53,8 @@ public class SecurityConfiguration {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/static/**", "/", "/login/**", "/signup/**", "/processRegistration", "/oauth2/**", "/registrationConfirm").permitAll()
+                                .requestMatchers("/static/**", "/", "/login/**", "/signup/**", "/processRegistration",
+                                        "/oauth2/**", "/registrationConfirm", "/withdraw-money/**").permitAll()
                                 .requestMatchers("/product/create").hasAnyAuthority("ROLE_SELLER","ROLE_MANAGER", "ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
@@ -76,32 +77,6 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider());
         return http.build();
     }
-
-
-//    @Bean
-//    public SecurityFilterChain emailFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests(authorizeRequests ->
-//                        authorizeRequests
-//                                .requestMatchers("/login/email", "/registrationConfirm").permitAll()
-//                                .anyRequest().authenticated()
-//                )
-//                .formLogin(form ->
-//                        form
-//                                .loginPage("/login/email")
-//                                .loginProcessingUrl("/authenticateTheUser")
-//                                .permitAll()
-//                )
-//                .logout(logout ->
-//                        logout
-//                                .logoutUrl("/logout")
-//                                .logoutSuccessUrl("/")
-//                )
-//                .authenticationProvider(authenticationProvider());
-//
-//        return http.build();
-//    }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
