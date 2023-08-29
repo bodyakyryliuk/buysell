@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="/static/products-styles.css">
+</head>
+<body>
+<h1>Shopping cart</h1>
+<div class="login-button-container" sec:authorize="!isAuthenticated()">
+    <form action="/login" method="get">
+        <input type="submit" value="Log in" class="login-button">
+    </form>
+</div>
+
+<div class="login-button-container" sec:authorize="isAuthenticated()">
+    <form action="#" th:action="@{/logout}"
+          method="POST">
+        <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+    </form>
+</div>
+
+<form action="/" method="get" class="search-form">
+    <input type="text" id="search" name="title" placeholder="Search by name...">
+    <input type="submit" value="Search" class="search-button">
+</form>
+
+<div class="user-info" sec:authorize="isAuthenticated()">
+    <span th:text="${user.email}"></span>
+    <br>
+    <span th:text="${user.roles}"></span>
+    <br>
+    <span th:text="'Balance: ' + ${user.balance}"></span>
+</div>
+
+<hr>
+<div>
+    <div class="product-list">
+        <div th:each="item : ${cartItems}" class="product">
+            <h1 th:text="${item.title}"></h1>
+            <div class="product-info">
+                <span class="info-label">ID:</span>
+                <span class="info-value" th:text="${item.id}"></span>
+            </div>
+            <div class="product-info">
+                <span class="info-label">Name:</span>
+                <span class="info-value" th:text="${item.title}"></span>
+            </div>
+            <div class="product-info">
+                <span class="info-label">Price:</span>
+                <span class="info-value" th:text="${item.price}"></span>
+            </div>
+            <div class="product-info">
+                <span class="info-label">Description:</span>
+                <span class="info-value" th:text="${item.description}"></span>
+            </div>
+            <div class="product-info">
+                <span class="info-label">City:</span>
+                <span class="info-value" th:text="${item.city}"></span>
+            </div>
+            <div class="product-info">
+                <span class="info-label">Author:</span>
+                <span class="info-value" th:text="${item.author}"></span>
+            </div>
+            <div class="product-actions">
+                <form th:action="@{/product/{id}(id=${item.id})}" method="get">
+                    <input type="submit" value="View Details" class="detailed-button">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+</body>
+</html>

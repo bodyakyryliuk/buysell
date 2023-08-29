@@ -1,9 +1,6 @@
 package com.example.buysell.service;
 
-import com.example.buysell.model.Role;
-import com.example.buysell.model.User;
-import com.example.buysell.model.UserRole;
-import com.example.buysell.model.VerificationToken;
+import com.example.buysell.model.*;
 import com.example.buysell.repository.UserRepository;
 import com.example.buysell.repository.VerificationTokenRepository;
 import com.example.buysell.user.WebUser;
@@ -13,11 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -39,8 +33,7 @@ public class UserService {
         user.setActive(false);
         user.setAuthMethod("email");
         user.setBalance(BigDecimal.ZERO);
-
-        // give user default role of "employee"
+        user.setShoppingCart(new ShoppingCart(user));
         user.setRoles(List.of(new Role(UserRole.ROLE_USER)));
 
         // save user in the database

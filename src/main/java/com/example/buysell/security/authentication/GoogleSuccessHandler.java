@@ -1,11 +1,13 @@
 package com.example.buysell.security.authentication;
 
 import com.example.buysell.model.Role;
+import com.example.buysell.model.ShoppingCart;
 import com.example.buysell.model.User;
 import com.example.buysell.model.UserRole;
 import com.example.buysell.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -18,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component
+@Transactional
 public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
 
@@ -60,7 +63,8 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
         }
     }
 
-    private User saveUserFromOAuth2User(OAuth2User oauth2User) {
+    @Transactional
+    public User saveUserFromOAuth2User(OAuth2User oauth2User) {
         User user = new User();
 
         // Assign user details from the OAuth2 user attributes
@@ -73,6 +77,7 @@ public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
         user.setAuthMethod("google");
         user.setRoles(List.of(new Role(UserRole.ROLE_USER)));
         user.setBalance(BigDecimal.ZERO);
+        user.setShoppingCart(new ShoppingCart(user));
 
         // Save user in the database
         return userRepository.save(user);
