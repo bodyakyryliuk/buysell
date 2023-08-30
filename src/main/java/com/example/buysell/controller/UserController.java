@@ -28,6 +28,11 @@ public class UserController {
         return stringBuilder.toString();
     }
 
+    @GetMapping("/add-money")
+    public String showAddFundsPage(){
+        return "add-funds-page";
+    }
+
     @PostMapping("/add-money")
     public String addBalance(@RequestParam BigDecimal amount){
         userService.addMoney(amount);

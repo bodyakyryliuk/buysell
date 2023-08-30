@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Funds</title>
+  <link rel="stylesheet" href="/static/add-founds-styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Add Funds to Your Account</h1>
+  <form th:action="@{/user/add-money}" method="post">
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" step="1" min="1" required>
+    <button type="submit" class="detailed-button">Add Funds</button>
+  </form>
+</div>
+</body>
+</html>

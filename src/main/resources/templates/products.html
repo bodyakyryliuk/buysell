@@ -11,15 +11,14 @@
 <body>
     <h1>Product Search</h1>
     <div class="login-button-container" sec:authorize="!isAuthenticated()">
-        <form action="/login" method="get">
-            <input type="submit" value="Log in" class="login-button">
+        <form action="/log in" method="get">
+            <input type="submit" value="  Log in  " class="login-button">
         </form>
     </div>
 
     <div class="login-button-container" sec:authorize="isAuthenticated()">
-        <form action="#" th:action="@{/logout}"
-              method="POST">
-            <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+        <form action="#" th:action="@{/logout}" method="POST">
+            <input type="submit" value="  Log out  " class="btn btn-outline-primary mt-2" />
         </form>
     </div>
 
@@ -36,6 +35,11 @@
         <span th:text="'Balance: ' + ${user.balance}"></span>
     </div>
 
+    <div class="add-money-container" sec:authorize="isAuthenticated()">
+        <form th:action="@{/user/add-money}" method="get">
+            <input type="submit" value="Add funds" class="add-money-button">
+        </form>
+    </div>
 
 <hr>
     <div>
@@ -70,7 +74,7 @@
                 <form th:action="@{/product/{id}(id=${product.id})}" method="get">
                     <input type="submit" value="View Details" class="detailed-button">
                 </form>
-                <form th:action="@{/shopping-cart/add-product/{id}(id=${product.id})}" method="get">
+                <form th:action="@{/shopping-cart/add-product/{id}(id=${product.id})}" method="post">
                     <input type="submit" value="Add to busket" class="detailed-button">
                 </form>
             </div>

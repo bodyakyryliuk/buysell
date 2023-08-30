@@ -69,6 +69,9 @@
                 <form th:action="@{/product/{id}(id=${item.id})}" method="get">
                     <input type="submit" value="View Details" class="detailed-button">
                 </form>
+                <form th:action="@{/shopping-cart/remove-product/{id}(id=${item.id})}" method="post">
+                    <input type="submit" value="Remove" class="detailed-button">
+                </form>
             </div>
         </div>
     </div>

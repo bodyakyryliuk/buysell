@@ -13,7 +13,7 @@ h1, h3 {
 hr {
     border: none;
     border-top: 1px solid #333;
-    margin: 20px 0;
+    margin: 30px 0;
 }
 
 .container {
@@ -37,10 +37,19 @@ hr {
     border-radius: 5px;
     box-sizing: border-box;
 }
+.add-money-container{
+    position: absolute;
+    top: 85px;
+    right: 10px;
+    border-radius: 0px;
+}
+
 .login-button-container{
     position: absolute;
     top: 10px;
     right: 10px;
+    border-radius: 1px;
+    width: 130px;
 }
 .search-button{
     width: 21%;
@@ -49,7 +58,6 @@ hr {
     width: 30%;
     padding: 8px;
     margin-bottom: 10px;
-    /*border: 1px solid #ccc;*/
     border-radius: 3px;
 }
 
@@ -60,10 +68,13 @@ hr {
     width: 73%;
     height: 20px;
 }
-.login-button-container{
-    border-radius: 1px;
-}
+
 .login-button{
+    border-radius: 1px;
+    width: 100px;
+}
+
+.add-money-button{
     border-radius: 1px;
 }
 
@@ -85,7 +96,7 @@ hr {
 
 form {
     background-color: #333;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
 }
 
