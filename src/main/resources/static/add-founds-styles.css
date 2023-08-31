@@ -16,6 +16,17 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 400px;
 }
+.main-page-link{
+    font-size: 50px;
+    font-family: fantasy;
+    background: -webkit-linear-gradient(white, #444444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    position: absolute;
+    margin-bottom: 350px;
+}
+
 h1 {
     text-align: center;
     margin-bottom: 20px;

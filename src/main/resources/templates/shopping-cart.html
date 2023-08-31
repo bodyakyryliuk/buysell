@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/static/products-styles.css">
 </head>
 <body>
-<h1>Shopping cart</h1>
+<a href="/" class="main-page-link"> Buy Sell </a>
+<h2>Shopping cart</h2>
 <div class="login-button-container" sec:authorize="!isAuthenticated()">
     <form action="/login" method="get">
         <input type="submit" value="Log in" class="login-button">
@@ -73,6 +74,29 @@
                     <input type="submit" value="Remove" class="detailed-button">
                 </form>
             </div>
+            <form th:action="@{/shopping-cart/update-quantity/{id}(id=${item.id})}" method="post" class="quantity-form">
+                <input type="hidden" name="productId" value="${item.id}">
+                <div class="quantity-control">
+                    <button type="submit" name="action" value="decrease" class="quantity-button">-</button>
+                    <input type="number" name="quantity" th:value="${existingQuantities.get(item.id)}" min="0"
+                           class="quantity-input" onchange="updateProductId(this)">
+                    <button type="submit" name="action" value="increase" class="quantity-button">+</button>
+                </div>
+            </form>
+
+            <script>
+                function updateProductId(inputElement) {
+                    const form = inputElement.closest(".quantity-form");
+                    const productId = form.querySelector("[name='productId']");
+                    const actionInput = form.querySelector("[name='action']");
+
+                    productId.value = inputElement.getAttribute("data-product-id");
+                    actionInput.value = "set";
+
+                    form.submit();
+                }
+            </script>
+
         </div>
     </div>
 </div>

@@ -60,6 +60,14 @@ hr {
     margin-bottom: 10px;
     border-radius: 3px;
 }
+.main-page-link{
+    font-size: 50px;
+    font-family: fantasy;
+    background: -webkit-linear-gradient(white, #444444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+}
 
 #search {
     margin-bottom: 0px;
@@ -138,4 +146,31 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-button {
+    background-color: #555555;
+    color: white;
+    border: none;
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.quantity-input {
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 14px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 7px;
+    margin-right: 7px;
 }

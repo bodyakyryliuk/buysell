@@ -75,7 +75,8 @@
                     <input type="submit" value="View Details" class="detailed-button">
                 </form>
                 <form th:action="@{/shopping-cart/add-product/{id}(id=${product.id})}" method="post">
-                    <input type="submit" value="Add to busket" class="detailed-button">
+                    <input type="number" name="quantity" value=1 min=0>
+                    <input type="submit" value="Add to basket" class="detailed-button">
                 </form>
             </div>
         </div>

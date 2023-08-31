@@ -3,8 +3,8 @@ package com.example.buysell.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @RequiredArgsConstructor
@@ -20,22 +20,23 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(name = "shopping_cart_products",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "shopping_cart_items", joinColumns = @JoinColumn(name = "cart_id"))
+    @MapKeyJoinColumn(name = "product_id")
+    @Column(name = "quantity")
+    private Map<Product, Integer> cartItems = new HashMap<>();
 
     public ShoppingCart(User user){
         this.user = user;
     }
 
-    public void addProduct(Product product){
-        products.add(product);
+
+    public void addProduct(Product product, int quantity){
+        cartItems.put(product, quantity);
     }
 
     public void removeProduct(Product product){
-        products.remove(product);
+        cartItems.remove(product);
     }
 
 
