@@ -3,62 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/products-styles.css">
+  <link rel="stylesheet" href="/static/admin-page-styles.css">
   <title>Online Store Administrator</title>
 </head>
 <body>
-<header>
-  <h1>Welcome, Store Administrator</h1>
-</header>
-
-<nav>
-  <ul>
-    <li><a href="#dashboard">Dashboard</a></li>
-    <li><a href="#products">Manage Products</a></li>
-    <li><a href="#orders">Manage Orders</a></li>
-    <li><a href="#customers">Manage Customers</a></li>
-    <li><a href="#employees">Manage Employees</a></li>
-    <li><a href="#analytics">View Analytics</a></li>
-    <li><a href="#settings">Store Settings</a></li>
-    <li><a href="#logout">Logout</a></li>
-  </ul>
-</nav>
 
 <main>
-  <section id="dashboard">
-    <h2>Dashboard</h2>
-    <!-- Display overview information about the store's performance -->
-  </section>
-
-  <section id="products">
-    <h2>Manage Products</h2>
-    <button id="addProductButton">Add Product</button>
-    <ul>
-      <!-- List of products -->
-      <li>Product 1 <button class="editProductButton">Edit</button> <button class="deleteProductButton">Delete</button></li>
-      <li>Product 2 <button class="editProductButton">Edit</button> <button class="deleteProductButton">Delete</button></li>
-      <!-- ... more products -->
-    </ul>
-  </section>
+  <h1>Admin Page</h1>
 
   <section id="orders">
-    <h2>Manage Orders</h2>
+    <h2>Manage Categories</h2>
     <ul>
       <!-- List of orders -->
-      <li>Order #123 <button class="viewOrderButton">View Details</button></li>
-      <li>Order #124 <button class="viewOrderButton">View Details</button></li>
+      <button class="viewOrderButton">Add new</button>
+      <li>Category 1 <button class="viewOrderButton">Delete</button></li>
       <!-- ... more orders -->
     </ul>
   </section>
 
-  <section id="customers">
-    <h2>Manage Customers</h2>
-    <ul>
-      <!-- List of customers -->
-      <li>Customer 1 <button class="editCustomerButton">Edit</button></li>
-      <li>Customer 2 <button class="editCustomerButton">Edit</button></li>
-      <!-- ... more customers -->
-    </ul>
+  <section id="users">
+    <div>
+      <h2>Manage Users</h2>
+
+      <form action="/" method="get" class="search-form">
+        <input type="text" id="search" name="title" placeholder="Search user by name">
+        <input type="submit" value="Search" class="search-button">
+      </form>      <div class="user-list">
+
+        <table>
+          <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Roles</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Use Thymeleaf each loop to populate the table with data -->
+          <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.fullName}">John Doe</td>
+            <td th:text="${user.email}">johndoe@example.com</td>
+            <td th:text="${user.enabled}">Active</td>
+            <td th:text="${user.roles}">ROLE_USER</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
   <section id="employees">
@@ -96,8 +90,6 @@
   </section>
 </main>
 
-<footer>
-  <p>&copy; 2023 Your Online Store. All rights reserved.</p>
-</footer>
+
 </body>
 </html>

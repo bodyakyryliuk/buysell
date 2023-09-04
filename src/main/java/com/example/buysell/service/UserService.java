@@ -1,6 +1,7 @@
 package com.example.buysell.service;
 
 import com.example.buysell.model.*;
+import com.example.buysell.repository.RoleRepository;
 import com.example.buysell.repository.UserRepository;
 import com.example.buysell.repository.VerificationTokenRepository;
 import com.example.buysell.user.WebUser;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final RoleRepository roleRepository;
 
     public User save(WebUser webUser) {
         User user = new User();
@@ -34,7 +36,13 @@ public class UserService {
         user.setAuthMethod("email");
         user.setBalance(BigDecimal.ZERO);
         user.setShoppingCart(new ShoppingCart(user));
-        user.setRoles(List.of(new Role(UserRole.ROLE_USER)));
+
+        Role roleUser = roleRepository.findByUserRole(UserRole.ROLE_USER);
+        if(roleUser == null){
+            roleUser = new Role(UserRole.ROLE_USER);
+            roleRepository.save(roleUser);
+        }
+        user.setRoles(List.of(roleUser));
 
         // save user in the database
         return userRepository.save(user);
@@ -88,6 +96,10 @@ public class UserService {
         User user = getLoggedInUser();
         user.setBalance(user.getBalance().subtract(amount));
         userRepository.save(user);
+    }
+
+    public List<User> getAllUsersByRole(Role role){
+        return userRepository.findAllByRole(role);
     }
 }
 

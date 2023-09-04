@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -87,4 +87,14 @@ public class User implements UserDetails {
         return active;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", balance=" + balance +
+                ", roles=" + roles +
+                '}';
+    }
 }

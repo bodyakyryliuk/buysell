@@ -1,4 +1,3 @@
-/* Reset some default styles */
 * {
     margin: 0;
     padding: 0;
@@ -40,20 +39,20 @@ h1 {
 
 .form-row {
     display: flex;
-    flex-direction: column; /* Display labels and inputs as columns */
-    align-items: flex-start; /* Align items to the start (left) of the column */
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 10px;
 }
 
 .form-row label {
-    width: 100%; /* Labels take full width */
+    width: 100%;
     margin-bottom: 10px;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 100%; /* Full width input fields */
+    width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;

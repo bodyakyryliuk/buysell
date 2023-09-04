@@ -3,7 +3,7 @@ package com.example.buysell.controller;
 import com.example.buysell.model.Product;
 import com.example.buysell.model.User;
 import com.example.buysell.service.ProductService;
-import com.example.buysell.service.ShoppingCartServiceImpl;
+import com.example.buysell.service.implementation.ShoppingCartServiceImpl;
 import com.example.buysell.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

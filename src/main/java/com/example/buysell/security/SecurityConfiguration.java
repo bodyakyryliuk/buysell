@@ -1,5 +1,6 @@
 package com.example.buysell.security;
 
+import com.example.buysell.repository.RoleRepository;
 import com.example.buysell.repository.UserRepository;
 import com.example.buysell.security.authentication.EmailAuthenticationProvider;
 import com.example.buysell.security.authentication.GoogleSuccessHandler;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration {
     private final DataSource dataSource;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
@@ -65,7 +67,7 @@ public class SecurityConfiguration {
                 .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .loginPage("/login/google")
-                                .successHandler(new GoogleSuccessHandler(userRepository))
+                                .successHandler(new GoogleSuccessHandler(userRepository, roleRepository))
                 )
                 .authenticationProvider(authenticationProvider());
         return http.build();

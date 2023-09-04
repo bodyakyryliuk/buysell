@@ -64,7 +64,6 @@ footer {
     text-align: center;
 }
 
-/* Styling for specific elements */
 
 button:hover, select:hover {
     background-color: #555;
@@ -79,7 +78,6 @@ button:hover, select:hover {
     margin-left: 5px;
 }
 
-/* Dark mode toggle */
 
 .dark-mode-toggle {
     position: fixed;
@@ -87,4 +85,45 @@ button:hover, select:hover {
     right: 20px;
 }
 
-/* Additional styles for specific sections can be added as needed */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    /*background-color: #f2f2f2;*/
+    background-color: #555555;
+}
+
+.search-button{
+    width: 20%;
+    height: 35px;
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+
+}
+.search-form{
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+#search {
+    margin-bottom: 0px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-left: -8px;
+    width: 73%;
+    height: 20px;
+}
+

@@ -1,9 +1,10 @@
-package com.example.buysell.service;
+package com.example.buysell.service.implementation;
 
 import com.example.buysell.model.Product;
 import com.example.buysell.model.ShoppingCart;
 import com.example.buysell.model.User;
 import com.example.buysell.repository.ShoppingCartRepository;
+import com.example.buysell.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
