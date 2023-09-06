@@ -8,21 +8,31 @@ import com.example.buysell.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final UserService userService;
     private final RoleRepository roleRepository;
 
-    @GetMapping("/admin")
+    @GetMapping
     public String getAdminPage(Model model){
-        Role role = roleRepository.findByUserRole(UserRole.ROLE_USER);
-        List<User> users = userService.getAllUsersByRole(role);
-        model.addAttribute("users", users);
+        Role roleUser = roleRepository.findByUserRole(UserRole.ROLE_USER);
+        List<User> usersUser = userService.getAllUsersByRole(roleUser);
+
+        List<Role> allRoles = roleRepository.findAll();
+        model.addAttribute("users", usersUser);
+        model.addAttribute("allRoles", allRoles);
         return "administrator-page";
+    }
+
+    @PostMapping("/update-user")
+    public String updateUser(@ModelAttribute("user") User user){
+        userService.save(user);
+        return "redirect:/admin";
     }
 }

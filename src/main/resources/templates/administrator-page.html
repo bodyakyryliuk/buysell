@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/admin-page-styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>Online Store Administrator</title>
 </head>
 <body>
@@ -30,28 +31,66 @@
         <input type="submit" value="Search" class="search-button">
       </form>      <div class="user-list">
 
-        <table>
-          <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Roles</th>
-          </tr>
-          </thead>
-          <tbody>
-          <!-- Use Thymeleaf each loop to populate the table with data -->
-          <tr th:each="user : ${users}">
+      <table>
+        <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Roles</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Use Thymeleaf each loop to populate the table with data -->
+        <tr th:each="user, userStat : ${users}">
+          <form th:action="@{/admin/update-user}" th:object="${user}" method="post">
+            <input type="hidden" name="id" th:value="${user.id}" />
+            <input type="hidden" name="password" th:value="${user.password}" />
+            <input type="hidden" name="locale" th:value="${user.locale}" />
+            <input type="hidden" name="authIdentifier" th:value="${user.authIdentifier}" />
+            <input type="hidden" name="authMethod" th:value="${user.authMethod}" />
+            <input type="hidden" name="profilePicture" th:value="${user.profilePicture}" />
+            <input type="hidden" name="balance" th:value="${user.balance}" />
+
             <td th:text="${user.id}">1</td>
-            <td th:text="${user.fullName}">John Doe</td>
-            <td th:text="${user.email}">johndoe@example.com</td>
-            <td th:text="${user.enabled}">Active</td>
-            <td th:text="${user.roles}">ROLE_USER</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+          <td>
+            <span class="editable" data-field="fullName" style="display: block;" th:text="${user.fullName}">John Doe</span>
+            <input class="editable-field" type="text" name="fullName" th:value="${user.fullName}" style="display: none;" />
+          </td>
+          <td>
+            <span class="editable" data-field="email" style="display: block;" th:text="${user.email}">johndoe@example.com</span>
+            <input class="editable-field" type="text" name="email" th:value="${user.email}" style="display: none;" />
+          </td>
+            <td>
+              <select class="editable-field status" name="active" style="display: none;">
+                <option value="true" th:selected="${user.active}">Enabled</option>
+                <option value="false" th:selected="${!user.active}">Disabled</option>
+              </select>
+              <span class="selectable" data-field="active" style="display: block;" th:text="${user.active}">Active</span>
+            </td>
+          <td>
+            <select class="editable-field roles" name="roles" style="display: none;" multiple="multiple">
+              <option th:each="role : ${allRoles}"
+                      th:value="${role.id}"
+                      th:text="${role.toString()}"
+                      th:selected="${user.roles}">
+              </option>
+            </select>
+
+            <span class="selectable" data-field="roles" style="display: block;" th:text="${user.roles}">ROLE_USER</span>
+          </td>
+          <td>
+            <button type="button" class="modify-button">Modify</button>
+            <button type="submit" class="save-button" style="display: none;">Save</button>
+          </td>
+          </form>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
     </div>
   </section>
 
@@ -89,6 +128,33 @@
     <!-- Configure store settings, payment options, etc. -->
   </section>
 </main>
+
+<script>
+  $(document).ready(function() {
+    $(".modify-button").click(function() {
+      var row = $(this).closest("tr");
+      row.find(".editable").hide();
+      row.find(".editable-field").show();
+      row.find(".modify-button").hide();
+      row.find(".save-button").show();
+
+      // Pre-fill input fields with the previous data from the corresponding spans
+      row.find(".editable-field").each(function() {
+        var fieldName = $(this).attr("name");
+        var spanValue = row.find(".editable[data-field='" + fieldName + "']").text();
+        $(this).val(spanValue);
+      });
+    });
+
+    $(".save-button").click(function() {
+      var row = $(this).closest("tr");
+      row.find(".editable").show();
+      row.find(".editable-field").hide();
+      row.find(".modify-button").show();
+      row.find(".save-button").hide();
+    });
+  });
+</script>
 
 
 </body>

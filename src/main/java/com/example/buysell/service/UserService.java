@@ -48,6 +48,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User save(User user){
+        return userRepository.save(user);
+    }
+
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null)
