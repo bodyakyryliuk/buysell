@@ -76,8 +76,8 @@ After opening the web site, you will be redirected to main page as a guest
 ![Main Page](src/main/resources/static/buysell_images/main-page-NL.jpeg)
 
 You can see product listing, sign up or login when you are guest.
-There you can choose a way of login: google or email. Facebook isn't implemented yet, but it will be finished in the nearest future.
-Google authorization doesn't require registration.
+There you can choose a way of login: github, google, email
+Google and github authorizations don't require registration.
 
 ![Login page](src/main/resources/static/buysell_images/login.jpeg)
 
