@@ -1,7 +1,6 @@
 package com.example.buysell.controller;
 
-import com.example.buysell.service.ProductService;
-import com.example.buysell.service.UserService;
+import com.example.buysell.service.purchase.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,19 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/purchase")
 @RequiredArgsConstructor
 public class PurchaseController {
-    private final ProductService productService;
-    private final UserService userService;
+    private final PurchaseService purchaseService;
 
     @GetMapping("/{id}")
     public String purchaseProduct(@PathVariable Long id){
-        if (userService.getLoggedInUser().getBalance().compareTo(productService.getProductById(id).getPrice()) >= 0) {
-            userService.withdrawMoney(productService.getProductById(id).getPrice());
+        if (purchaseService.purchaseProductById(id))
             return "purchase-success";
-        }
         else
             return "purchase-failure";
     }
-
-
 
 }

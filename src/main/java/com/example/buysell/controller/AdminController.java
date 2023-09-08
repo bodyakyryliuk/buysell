@@ -1,38 +1,30 @@
 package com.example.buysell.controller;
 
-import com.example.buysell.model.Role;
 import com.example.buysell.model.User;
-import com.example.buysell.model.UserRole;
-import com.example.buysell.repository.RoleRepository;
-import com.example.buysell.service.UserService;
+import com.example.buysell.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
-    private final UserService userService;
-    private final RoleRepository roleRepository;
-
+    private final AdminService adminService;
     @GetMapping
     public String getAdminPage(Model model){
-        Role roleUser = roleRepository.findByUserRole(UserRole.ROLE_USER);
-        List<User> usersUser = userService.getAllUsersByRole(roleUser);
-
-        List<Role> allRoles = roleRepository.findAll();
-        model.addAttribute("users", usersUser);
-        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("users", adminService.getAllUsers());
+        model.addAttribute("allRoles", adminService.getAllRoles());
         return "administrator-page";
     }
 
     @PostMapping("/update-user")
     public String updateUser(@ModelAttribute("user") User user){
-        userService.save(user);
+        adminService.save(user);
         return "redirect:/admin";
     }
 }

@@ -104,3 +104,14 @@ input[type="submit"]:hover {
     margin-top: 10px;
     color: #4CAF50;
 }
+
+.signup-button{
+    background-color: #555;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 50%;
+}

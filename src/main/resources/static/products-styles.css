@@ -87,11 +87,14 @@ hr {
 }
 
 .product-info {
-    margin-bottom: 10px; /* Increase the vertical distance between properties */
+    margin-bottom: 10px;
 }
 
 .product-actions {
-    padding-left: -20px;
+    display: flex;
+    flex-direction: row; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    margin-bottom: -10px;
 }
 
 .product a {
@@ -174,3 +177,8 @@ input[type="submit"]:hover {
     margin-left: 7px;
     margin-right: 7px;
 }
+
+.product-actions form {
+    margin-top: -10px; /* Add spacing between the buttons */
+}
+

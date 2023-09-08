@@ -1,12 +1,13 @@
-package com.example.buysell.service.implementation;
+package com.example.buysell.service.role;
 
 import com.example.buysell.model.Role;
 import com.example.buysell.model.UserRole;
 import com.example.buysell.repository.RoleRepository;
-import com.example.buysell.service.RoleService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findByUserRole(UserRole userRole) {
         return roleRepository.findByUserRole(userRole);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
     }
 }

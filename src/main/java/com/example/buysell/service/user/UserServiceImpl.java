@@ -1,4 +1,4 @@
-package com.example.buysell.service;
+package com.example.buysell.service.user;
 
 import com.example.buysell.model.*;
 import com.example.buysell.repository.RoleRepository;
@@ -8,6 +8,7 @@ import com.example.buysell.user.WebUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,12 +20,13 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final VerificationTokenRepository verificationTokenRepository;
     private final RoleRepository roleRepository;
 
+    @Override
     public User save(WebUser webUser) {
         User user = new User();
 
@@ -48,10 +50,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User save(User user){
-        return userRepository.save(user);
-    }
-
+    @Override
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null)
@@ -63,47 +62,67 @@ public class UserService {
         }
         return null;
     }
+    @Override
     public void removeUser(Long id){
         userRepository.deleteById(id);
     }
 
+    @Override
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
 
+    @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+    @Override
     public User getUserByToken(String token){
         return verificationTokenRepository.findByToken(token).getUser();
     }
 
+    @Override
     public void createVerificationToken(User user, String token){
         VerificationToken verificationToken = new VerificationToken(user, token);
         verificationTokenRepository.save(verificationToken);
     }
-
+    @Override
     public VerificationToken getVerificationToken(String token){
         return verificationTokenRepository.findByToken(token);
     }
-
+    @Override
     public void saveRegisteredUser(User user){
         userRepository.save(user);
     }
-
+    @Override
     public void addMoney(BigDecimal amount){
         User user = getLoggedInUser();
         user.setBalance(user.getBalance().add(amount));
         userRepository.save(user);
     }
+    @Override
     public void withdrawMoney(BigDecimal amount){
         User user = getLoggedInUser();
         user.setBalance(user.getBalance().subtract(amount));
         userRepository.save(user);
     }
 
+    @Override
     public List<User> getAllUsersByRole(Role role){
         return userRepository.findAllByRole(role);
+    }
+
+    @Override
+    public String getRolesString(Authentication authentication) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                stringBuilder.append(authority.getAuthority()).append(" ");
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }
 

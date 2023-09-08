@@ -1,7 +1,7 @@
 package com.example.buysell.security.authentication;
 
 import com.example.buysell.model.User;
-import com.example.buysell.service.UserService;
+import com.example.buysell.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final MessageSource messageSource;
     private final JavaMailSender javaMailSender;
     @Override

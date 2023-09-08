@@ -70,21 +70,29 @@
                 <span class="info-label">Author:</span>
                 <span class="info-value" th:text="${product.author}"></span>
             </div>
-            <div class="product-actions">
-                <form th:action="@{/product/{id}(id=${product.id})}" method="get">
-                    <input type="submit" value="View Details" class="detailed-button">
-                </form>
-                <form th:action="@{/shopping-cart/add-product/{id}(id=${product.id})}" method="post">
-                    <input type="number" name="quantity" value=1 min=0>
-                    <input type="submit" value="Add to basket" class="detailed-button">
-                </form>
+            <div class="product-content">
+                <div class="product-actions">
+                    <form th:action="@{/product/{id}(id=${product.id})}" method="get">
+                        <input type="submit" value="View Details" class="detailed-button">
+                    </form>
+                    <div sec:authorize="hasAnyAuthority('ROLE_MANAGER')">
+                        <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post" class="product-form">
+                            <input type="submit" value="Delete" class="detailed-button">
+                        </form>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <form th:action="@{/shopping-cart/add-product/{id}(id=${product.id})}" method="post">
+                        <input type="number" name="quantity" value=1 min=0>
+                        <input type="submit" value="Add to basket" class="detailed-button">
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     </div>
     <hr>
 
-<!--<div sec:authorize="hasAnyAuthority('ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_MANAGER')">-->
+<div sec:authorize="hasAnyAuthority('ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_MANAGER')">
     <div sec:authorize="permitAll()">
     <form  action="/product/create" method="post" class="product-form">
         <h3>Add new item</h3>
@@ -112,5 +120,7 @@
         <input type="submit" value="Add new item">
     </form>
 </div>
+</div>
+    </div>
 </body>
 </html>

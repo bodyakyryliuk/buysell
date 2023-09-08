@@ -1,9 +1,7 @@
 package com.example.buysell.controller;
 
 import com.example.buysell.model.Product;
-import com.example.buysell.model.User;
-import com.example.buysell.service.ProductService;
-import com.example.buysell.service.UserService;
+import com.example.buysell.service.products.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final UserService userService;
 
     @GetMapping("/")
-    public String products(@RequestParam(name = "title", required = false) String title, Model model){
-        model.addAttribute("allProducts", productService.getProducts(title));
-        User currUser = userService.getLoggedInUser();
-        model.addAttribute("user", currUser);
-
+    public String showProductPage(@RequestParam(name = "title", required = false) String title, Model model){
+        productService.addProductsToModel(title, model);
         return "products";
     }
 
@@ -41,7 +35,7 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public String getProductInfo(@PathVariable Long id, Model model){
-        model.addAttribute(productService.getProductById(id));
+        productService.addProductsToModel(id, model);
         return "product-info";
     }
 
