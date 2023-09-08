@@ -1,9 +1,10 @@
 package com.example.buysell.security;
 
-import com.example.buysell.repository.RoleRepository;
-import com.example.buysell.repository.UserRepository;
+
 import com.example.buysell.security.authentication.EmailAuthenticationProvider;
+import com.example.buysell.security.authentication.GitHubSuccessHandler;
 import com.example.buysell.security.authentication.GoogleSuccessHandler;
+import com.example.buysell.service.registration.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final DataSource dataSource;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final RegistrationService registrationService;
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
@@ -67,7 +67,9 @@ public class SecurityConfiguration {
                 .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .loginPage("/login/google")
-                                .successHandler(new GoogleSuccessHandler(userRepository, roleRepository))
+                                .successHandler(new GoogleSuccessHandler(registrationService))
+                                .loginPage("/login/github")
+                                .successHandler(new GitHubSuccessHandler(registrationService))
                 )
                 .authenticationProvider(authenticationProvider());
         return http.build();

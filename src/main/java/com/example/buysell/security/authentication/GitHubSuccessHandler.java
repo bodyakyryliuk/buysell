@@ -8,22 +8,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 @Component
 @Transactional
 @RequiredArgsConstructor
-public class GoogleSuccessHandler implements AuthenticationSuccessHandler {
+public class GitHubSuccessHandler implements AuthenticationSuccessHandler {
     private final RegistrationService registrationService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
+        System.out.println(authentication.getPrincipal());
         if (registrationService.createOAuth2Token(authentication, response))
             response.sendRedirect("/");
         else {
             response.sendRedirect("/login");
         }
     }
-
 }

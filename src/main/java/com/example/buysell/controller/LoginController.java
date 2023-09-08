@@ -23,9 +23,9 @@ public class LoginController {
         return "redirect:/oauth2/authorization/google";
     }
 
-    @GetMapping("/facebook")
+    @GetMapping("/github")
     public String facebookLogin(){
-        return "email-login-page";
+        return "redirect:/oauth2/authorization/github";
     }
 
 }

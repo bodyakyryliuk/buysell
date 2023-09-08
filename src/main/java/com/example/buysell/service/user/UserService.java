@@ -26,7 +26,7 @@ public interface UserService {
 
     VerificationToken getVerificationToken(String token);
 
-    void saveRegisteredUser(User user);
+    User saveRegisteredUser(User user);
 
     void addMoney(BigDecimal amount);
 
@@ -35,4 +35,6 @@ public interface UserService {
     List<User> getAllUsersByRole(Role role);
 
     String getRolesString(Authentication authentication);
+
+    User findByEmailAndAuthMethod(String email,String authMethod);
 }

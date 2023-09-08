@@ -7,6 +7,7 @@ import com.example.buysell.repository.VerificationTokenRepository;
 import com.example.buysell.user.WebUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,8 +92,8 @@ public class UserServiceImpl implements UserService{
         return verificationTokenRepository.findByToken(token);
     }
     @Override
-    public void saveRegisteredUser(User user){
-        userRepository.save(user);
+    public User saveRegisteredUser(User user){
+        return userRepository.save(user);
     }
     @Override
     public void addMoney(BigDecimal amount){
@@ -123,6 +124,11 @@ public class UserServiceImpl implements UserService{
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public User findByEmailAndAuthMethod(String email, String authMethod) {
+        return userRepository.findByEmailAndAuthMethod(email, authMethod);
     }
 }
 
